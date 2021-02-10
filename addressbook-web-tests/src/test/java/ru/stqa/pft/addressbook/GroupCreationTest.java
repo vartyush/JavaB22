@@ -10,7 +10,7 @@ public class GroupCreationTest {
 
 
   @BeforeMethod(alwaysRun = true)
-  public void setUp() throws Exception {
+  public void setUp()  {
     wd = new FirefoxDriver();
 
     wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -70,7 +70,7 @@ public class GroupCreationTest {
 
   @AfterMethod(alwaysRun = true)
 
-    public void tearDown() throws Exception {
+    public void tearDown()  {
     logout();
     wd.quit();
     }
