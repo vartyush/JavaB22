@@ -7,7 +7,7 @@ public class ContactModificationTest extends TestBase {
 
 
     @Test
-    public void testContactDeletion() {
+    public void testContactModification() {
 
         app.getNavigationHelper().goToContactPage();
         app.getContactHelper().selectContact();
