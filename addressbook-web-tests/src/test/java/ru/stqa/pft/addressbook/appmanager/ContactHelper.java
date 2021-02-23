@@ -1,12 +1,15 @@
 package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import ru.stqa.pft.addressbook.modul.ContactData;
 
 public class ContactHelper extends HelperBase {
 
-    public ContactHelper(FirefoxDriver wd) {
+    public ContactHelper(WebDriver wd) {
         super(wd);
     }
 
@@ -19,7 +22,7 @@ public class ContactHelper extends HelperBase {
         click(By.xpath("(//input[@name='submit'])[2]"));
     }
 
-    public void fillContactForm(ContactData contactData) {
+    public void fillContactForm(ContactData contactData, boolean creation) {
         type(By.name("firstname"), contactData.getFirstname());
         type(By.name("lastname"), contactData.getLastname());
         type(By.name("company"), contactData.getCompany());
@@ -27,8 +30,15 @@ public class ContactHelper extends HelperBase {
         type(By.name("mobile"), contactData.getMobile());
         type(By.name("email"), contactData.getEmail());
 
+        if (creation) {
 
+             new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+
+        } else {
+            Assert.assertFalse(isElementPresent(By.name("new_group")));
+        }
     }
+
 
     public void deleteSelectedContact() {
         click(By.xpath("//input[@value='Delete']"));
@@ -47,5 +57,17 @@ public class ContactHelper extends HelperBase {
 
     public void submitModificationContact() {
         click(By.name("update"));
+    }
+
+    public void createContact(ContactData contact, boolean creation) {
+        NavigationHelper navigationHelper = new NavigationHelper(wd);
+        navigationHelper.goToContactAddingPage();
+        fillContactForm(contact, creation);
+        submitContactForm();
+        returnToContactPage();
+    }
+
+    public boolean isContactPresent() {
+        return isElementPresent(By.name("selected[]"));
     }
 }
