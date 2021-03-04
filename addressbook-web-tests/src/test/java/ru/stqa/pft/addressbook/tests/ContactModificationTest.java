@@ -15,7 +15,7 @@ public class ContactModificationTest extends TestBase {
     public void testContactModification() {
 
         app.getNavigationHelper().goToContactPage();
-        ContactData contact =new ContactData("Viktoria", "Rubanova",
+        ContactData contact =new ContactData("Viktoria123", "Rubanova",
                 "T-Systems", "test");
 
         if (!app.getContactHelper().isContactPresent()) {
