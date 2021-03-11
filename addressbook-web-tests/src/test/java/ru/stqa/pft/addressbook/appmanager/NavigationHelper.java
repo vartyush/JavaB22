@@ -13,7 +13,7 @@ public class NavigationHelper extends HelperBase{
        super(wd);
     }
 
-    public void gotoGroupPage() {
+    public void groupPage() {
    click(By.linkText("groups"));
     }
 
@@ -22,7 +22,7 @@ public class NavigationHelper extends HelperBase{
 
     }
 
-    public void goToContactPage() {
+    public void contactPage() {
         click(By.linkText("home"));
     }
 
