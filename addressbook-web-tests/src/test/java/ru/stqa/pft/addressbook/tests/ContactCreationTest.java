@@ -28,8 +28,8 @@ public class ContactCreationTest extends TestBase {
         Contacts before = app.contact().all();
         ContactData contact = new ContactData().withFirstname("Viktoria123").withLastname("Rubanova").withCompany("T-Systems").withGroup("test");
         app.contact().create(contact, true);
+        assertThat(app.contact().count(), equalTo(before.size() + 1));
         Contacts after = app.contact().all();
-        assertThat(after.size(), equalTo(before.size() + 1));
         System.out.println("Before");
         for (ContactData b : before) {
             System.out.println(b);
