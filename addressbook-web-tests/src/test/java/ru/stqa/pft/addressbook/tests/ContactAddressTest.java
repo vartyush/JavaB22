@@ -3,12 +3,8 @@ package ru.stqa.pft.addressbook.tests;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.modul.ContactData;
-import ru.stqa.pft.addressbook.modul.Contacts;
-import ru.stqa.pft.addressbook.modul.GroupData;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.stream.Collectors;
+import ru.stqa.pft.addressbook.modul.GroupData;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
