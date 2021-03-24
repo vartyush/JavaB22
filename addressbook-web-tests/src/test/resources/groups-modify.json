@@ -1,0 +1,17 @@
+[
+  {
+    "name": "testMod 0",
+    "header": "headerMod 0",
+    "footer": "footerMod 0"
+  },
+  {
+    "name": "testMod 1",
+    "header": "headerMod 1",
+    "footer": "footerMod 1"
+  },
+  {
+    "name": "testMod 2",
+    "header": "headerMod 2",
+    "footer": "footerMod 2"
+  }
+]
