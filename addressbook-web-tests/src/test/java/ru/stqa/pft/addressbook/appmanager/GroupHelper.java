@@ -57,6 +57,7 @@ public class GroupHelper extends HelperBase {
         initGroupCreation();
         fillGroupForm(group);
         submitGroupCreation();
+        groupCache = null;
         returnToGroupPage();
     }
 
@@ -66,6 +67,7 @@ public class GroupHelper extends HelperBase {
         initGroupModification();
         fillGroupForm(group);
         submitGroupModification();
+        groupCache = null;
         returnToGroupPage();
     }
 
@@ -73,6 +75,7 @@ public class GroupHelper extends HelperBase {
     public void delete(GroupData group) {
         selectGroupById(group.getId());
         deleteSelectedGroup();
+        groupCache = null;
         returnToGroupPage();
     }
 

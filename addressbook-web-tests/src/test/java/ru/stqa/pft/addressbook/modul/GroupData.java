@@ -1,14 +1,22 @@
 package ru.stqa.pft.addressbook.modul;
 
+import com.google.gson.annotations.Expose;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 import java.util.Objects;
 
+@XStreamAlias("group")
+
 public class GroupData {
-
-
+    @XStreamOmitField
     private int id;
-    private  String name;
-    private  String header;
-    private  String footer;
+    @Expose
+    private String name;
+    @Expose
+    private String header;
+    @Expose
+    private String footer;
 
 
     @Override
@@ -40,7 +48,7 @@ public class GroupData {
     public GroupData withId(int id) {
 
         this.id = id;
-        return this ;
+        return this;
     }
 
     public GroupData withName(String name) {

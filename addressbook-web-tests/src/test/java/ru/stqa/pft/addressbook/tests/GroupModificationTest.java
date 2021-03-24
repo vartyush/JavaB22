@@ -1,12 +1,23 @@
 package ru.stqa.pft.addressbook.tests;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.modul.GroupData;
 import ru.stqa.pft.addressbook.modul.Groups;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -15,6 +26,22 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 
 public class GroupModificationTest extends TestBase {
+
+    @DataProvider
+    public Iterator<Object[]> validGroupsFromJson() throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups-modify.json")))) {
+            String json = "";
+            String line = reader.readLine();
+            while (line != null) {
+                json += line;
+                line = reader.readLine();
+            }
+            Gson gson = new Gson();
+            List<GroupData> groups = gson.fromJson(json, new TypeToken<List<GroupData>>() {
+            }.getType());
+            return groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
+        }
+    }
 
     @BeforeMethod
 
@@ -27,13 +54,11 @@ public class GroupModificationTest extends TestBase {
 
     }
 
-    @Test
-    public void testGroupModification() {
+    @Test(dataProvider = "validGroupsFromJson")
+    public void testGroupModification(GroupData group) {
         Groups before = app.group().all();
         GroupData modifiedGroup = before.iterator().next();
-        GroupData group = new GroupData().withId(modifiedGroup.getId())
-                .withName("test88").withHeader("test2").withFooter("test3");
-        app.group().modify(group);
+        app.group().modify(group.withId(modifiedGroup.getId()));
         assertThat(app.group().count(), equalTo(before.size()));
         Groups after = app.group().all();
          assertThat(after, equalTo(before.without(modifiedGroup).withAdded(group)));
