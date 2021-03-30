@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.modul.ContactData;
 import ru.stqa.pft.addressbook.modul.Contacts;
 import ru.stqa.pft.addressbook.modul.GroupData;
+import ru.stqa.pft.addressbook.modul.Groups;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -44,30 +45,32 @@ public class ContactModificationTest extends TestBase {
     @BeforeMethod
 
     public void ensurePreconditions() {
-        app.goTo().groupPage();
-        if (app.group().all().size() == 0) {
-            app.group().create(new GroupData().withName("test"));
+        if (app.db().groups().size() == 0) {
+            app.goTo().groupPage();
+            app.group().create(new GroupData().withName("test1"));
+            app.goTo().contactPage();
         }
 
-        app.goTo().contactPage();
-
-        if (app.contact().all().size() == 0) {
-            app.contact().create(new ContactData().withFirstname("Viktoria123").withCompany("T-Systems"), true);
+        if (app.db().contacts().size() == 0) {
+            Groups group = app.db().groups();
+            app.contact().create(new ContactData().withFirstname("Viktoria123").withCompany("T-Systems")
+                    .inGroup(group.iterator().next()), true);
         }
 
     }
 
 
     @Test(dataProvider = "validContactsFromJson")
-    public void testContactModification(ContactData contact ) {
-
-        Contacts before = app.contact().all();
+    public void testContactModification(ContactData contact) {
+        Groups group = app.db().groups();
+        Contacts before = app.db().contacts();
         ContactData modifiedContact = before.iterator().next();
+        app.goTo().contactPage();
 
-       // ContactData contact = new ContactData().withId(modifiedContact.getId()).withFirstname("Viktoria73").withLastname("Rubanova").withGroup("Group");
-        app.contact().modify(contact.withId(modifiedContact.getId()));
+        // ContactData contact = new ContactData().withId(modifiedContact.getId()).withFirstname("Viktoria73").withLastname("Rubanova").withGroup("Group");
+        app.contact().modify(contact.withId(modifiedContact.getId()).inGroup(group.iterator().next()));
         assertThat(app.contact().count(), equalTo(before.size()));
-        Contacts after = app.contact().all();
+        Contacts after = app.db().contacts();
         System.out.println("Before");
         for (ContactData b : before) {
             System.out.println(b);

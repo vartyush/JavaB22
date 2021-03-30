@@ -1,4 +1,35 @@
-test 0;header 0;footer 0
-test 1;header 1;footer 1
-test 2;header 2;footer 2
-
+[
+  {
+    "firstname": "VictoriaMod 0",
+    "lastname": "RubanovaMod 0",
+    "home": "54565567Mod 0",
+    "work": "123456778Mod 0",
+    "mobile": "123456778Mod 0",
+    "group": "testMod 0",
+    "eMail1": "viktoriaMod.rub@t-systems.com 0",
+    "eMail2": "viktoriaMod.rub@t-systems.com 0",
+    "eMail3": "viktoriaMod.rub@t-systems.com 0"
+  },
+  {
+    "firstname": "VictoriaMod 1",
+    "lastname": "RubanovaMod 1",
+    "home": "54565567Mod 1",
+    "work": "123456778Mod 1",
+    "mobile": "123456778Mod 1",
+    "group": "testMod 1",
+    "eMail1": "viktoriaMod.rub@t-systems.com 1",
+    "eMail2": "viktoriaMod.rub@t-systems.com 1",
+    "eMail3": "viktoriaMod.rub@t-systems.com 1"
+  },
+  {
+    "firstname": "VictoriaMod 2",
+    "lastname": "RubanovaMod 2",
+    "home": "54565567Mod 2",
+    "work": "123456778Mod 2",
+    "mobile": "123456778Mod 2",
+    "group": "testMod 2",
+    "eMail1": "viktoriaMod.rub@t-systems.com 2",
+    "eMail2": "viktoriaMod.rub@t-systems.com 2",
+    "eMail3": "viktoriaMod.rub@t-systems.com 2"
+  }
+]

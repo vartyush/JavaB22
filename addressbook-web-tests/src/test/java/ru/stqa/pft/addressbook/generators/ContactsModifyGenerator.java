@@ -67,8 +67,8 @@ public class ContactsModifyGenerator {
                     .withEmail3(String.format("viktoriaMod.rub@t-systems.com %s", i))
                     .withHome(String.format("54565567Mod %s", i))
                     .withMobile(String.format("123456778Mod %s", i))
-                    .withWork(String.format("123456778Mod %s", i))
-                    .withGroup(String.format("testMod %s", i)));
+                    .withWork(String.format("123456778Mod %s", i)));
+                    //.getGroups(String.format("testMod %s", i)));
 
 
         }

@@ -5,31 +5,8 @@
     "home": "54565567 0",
     "work": "123456778 0",
     "mobile": "123456778 0",
-    "group": "test 0",
     "eMail1": "viktoria.rub@t-systems.com 0",
     "eMail2": "viktoria.rub@t-systems.com 0",
     "eMail3": "viktoria.rub@t-systems.com 0"
-  },
-  {
-    "firstname": "Victoria 1",
-    "lastname": "Rubanova 1",
-    "home": "54565567 1",
-    "work": "123456778 1",
-    "mobile": "123456778 1",
-    "group": "test 1",
-    "eMail1": "viktoria.rub@t-systems.com 1",
-    "eMail2": "viktoria.rub@t-systems.com 1",
-    "eMail3": "viktoria.rub@t-systems.com 1"
-  },
-  {
-    "firstname": "Victoria 2",
-    "lastname": "Rubanova 2",
-    "home": "54565567 2",
-    "work": "123456778 2",
-    "mobile": "123456778 2",
-    "group": "test 2",
-    "eMail1": "viktoria.rub@t-systems.com 2",
-    "eMail2": "viktoria.rub@t-systems.com 2",
-    "eMail3": "viktoria.rub@t-systems.com 2"
   }
 ]

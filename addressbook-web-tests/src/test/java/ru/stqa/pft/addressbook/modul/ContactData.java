@@ -1,44 +1,86 @@
 package ru.stqa.pft.addressbook.modul;
 
 import com.google.gson.annotations.Expose;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.*;
 import java.io.File;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+@Entity
+@Table(name = "addressbook")
 public class ContactData {
+    @Id
+    @Column(name = "id")
+    private int id;
     @Expose
+    @Column(name = "firstname")
     private String firstname;
     @Expose
+    @Column(name = "lastname")
     private String lastname;
     private String company;
     @Expose
+    @Column(name = "home")
+    @Type(type = "text")
     private String home;
     @Expose
+    @Column(name = "work")
+    @Type(type = "text")
     private String work;
     @Expose
+    @Column(name = "mobile")
+    @Type(type = "text")
     private String mobile;
-    private int id;
     @Expose
-    private String group;
+
+
+    @Transient
     private String allPhones;
     @Expose
+    @Column(name = "email")
+    @Type(type = "text")
     private String eMail1;
+
     @Expose
+    @Column(name = "email2")
+    @Type(type = "text")
     private String eMail2;
+
     @Expose
+    @Column(name = "email3")
+    @Type(type = "text")
     private String eMail3;
+
+    @Transient
     private String allEmails;
-    private File photo;
+
+    @Column(name = "photo")
+    @Type(type = "text")
+    private String photo;
+
+    @Transient
+    private String address;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "address_in_groups",
+            joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
+    private Set<GroupData> groups = new HashSet<GroupData>();
+
+    public Groups getGroups() {
+        return new Groups(groups);
+    }
 
     public File getPhoto() {
-        return photo;
+        return new File(photo);
     }
 
     public ContactData withPhoto(File photo) {
-        this.photo = photo;
+        this.photo = photo.getPath();
         return this;
     }
-
 
 
     public String getAddress() {
@@ -50,7 +92,6 @@ public class ContactData {
         return this;
     }
 
-    private String address;
 
     public String getEmail1() {
         return eMail1;
@@ -78,8 +119,6 @@ public class ContactData {
         this.eMail3 = eMail3;
         return this;
     }
-
-
 
 
     public String getAllEmails() {
@@ -135,10 +174,6 @@ public class ContactData {
         return this;
     }
 
-    public ContactData withGroup(String group) {
-        this.group = group;
-        return this;
-    }
 
     public ContactData withId(int id) {
 
@@ -150,8 +185,10 @@ public class ContactData {
     @Override
     public String toString() {
         return "ContactData{" +
-                "firstname='" + firstname + '\'' +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
+                ", groups=" + groups +
                 '}';
     }
 
@@ -167,9 +204,6 @@ public class ContactData {
         return company;
     }
 
-    public String getGroup() {
-        return group;
-    }
 
     public int getId() {
         return id;
@@ -198,11 +232,23 @@ public class ContactData {
         ContactData that = (ContactData) o;
         return id == that.id &&
                 Objects.equals(firstname, that.firstname) &&
-                Objects.equals(lastname, that.lastname);
+                Objects.equals(lastname, that.lastname) &&
+                Objects.equals(home, that.home) &&
+                Objects.equals(work, that.work) &&
+                Objects.equals(mobile, that.mobile) &&
+                Objects.equals(eMail1, that.eMail1) &&
+                Objects.equals(eMail2, that.eMail2) &&
+                Objects.equals(eMail3, that.eMail3) &&
+                Objects.equals(address, that.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstname, lastname, id);
+        return Objects.hash(id, firstname, lastname, home, work, mobile, eMail1, eMail2, eMail3, address);
+    }
+
+    public ContactData inGroup(GroupData group) {
+        groups.add(group);
+        return this;
     }
 }
