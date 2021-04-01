@@ -11,6 +11,7 @@ import ru.stqa.pft.addressbook.modul.GroupData;
 import ru.stqa.pft.addressbook.modul.Groups;
 
 import java.util.List;
+import java.util.Set;
 
 public class ContactHelper extends HelperBase {
 
@@ -27,7 +28,7 @@ public class ContactHelper extends HelperBase {
         click(By.xpath("(//input[@name='submit'])[2]"));
     }
 
-    public void fillContactForm(ContactData contactData,  boolean creation) {
+    public void fillContactForm(ContactData contactData, boolean creation) {
         type(By.name("firstname"), contactData.getFirstname());
         type(By.name("lastname"), contactData.getLastname());
         type(By.name("company"), contactData.getCompany());
@@ -42,8 +43,8 @@ public class ContactHelper extends HelperBase {
 
 
         if (creation) {
-if (contactData.getGroups().size()>0)
-    Assert.assertTrue(contactData.getGroups().size()==1);
+            if (contactData.getGroups().size() > 0)
+                Assert.assertTrue(contactData.getGroups().size() == 1);
             new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
 
         } else {
@@ -72,6 +73,14 @@ if (contactData.getGroups().size()>0)
         click(By.name("update"));
     }
 
+    public void submitAddToGroup() {
+        click(By.name("add"));
+    }
+
+    private void submitRemoveFromGroup() {
+        click(By.name("remove"));
+    }
+
     public void create(ContactData contact, boolean creation) {
         NavigationHelper navigationHelper = new NavigationHelper(wd);
         navigationHelper.goToContactAddingPage();
@@ -84,7 +93,7 @@ if (contactData.getGroups().size()>0)
 
     public void modify(ContactData contact) {
         initModificationContactById(contact.getId());
-        fillContactForm(contact,false);
+        fillContactForm(contact, false);
         submitModificationContact();
         contactCache = null;
         returnToContactPage();
@@ -120,7 +129,7 @@ if (contactData.getGroups().size()>0)
             String allPhones = cells.get(5).getText();
             String allEmails = cells.get(4).getText();
             String address = cells.get(3).getText();
-             contactCache.add(new ContactData().withId(id).withFirstname(firstName)
+            contactCache.add(new ContactData().withId(id).withFirstname(firstName)
                     .withLastname(lastName).withAddress(address).withAllPhones(allPhones).withAllEmails(allEmails));
         }
 
@@ -146,4 +155,49 @@ if (contactData.getGroups().size()>0)
 
 
     }
+
+    public void addToGroup(Contacts contacts, Groups groups) {
+        GroupData selectedGroup = groups.iterator().next();
+        ContactData selectedContact = contacts.iterator().next();
+        selectContactById(selectedContact.getId());
+        Set<GroupData> groupOfContact = selectedContact.getGroups();
+        if (selectedContact.getGroups().size() > 0) {
+            int i = 0;
+
+            for (GroupData g : groups) {
+                for (GroupData g1 : groupOfContact) {
+                    if ((g1.getName()).equals(g.getName())) {
+                        break;
+                    }
+                    i++;
+                }
+                if (i == groupOfContact.size()) {
+                    selectedGroup = g;
+                    break;
+                }
+            }
+            new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(selectedGroup.getName());
+            submitAddToGroup();
+            selectedContact.inGroup(selectedGroup);
+
+        } else {
+            new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(selectedGroup.getName());
+            submitAddToGroup();
+            selectedContact.inGroup(selectedGroup);
+        }
+        returnToContactPage();
+    }
+
+    public void removeFromGroup(ContactData contact) {
+        new Select(wd.findElement(By.name("group"))).selectByVisibleText(contact.getGroups().iterator().next().getName());
+        selectContactById(contact.getId());
+        submitRemoveFromGroup();
+        contact.fromGroup(contact.getGroups().iterator().next());
+
+    }
+
+
 }
+
+
+
