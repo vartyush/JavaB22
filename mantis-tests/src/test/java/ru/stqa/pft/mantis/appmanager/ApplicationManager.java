@@ -19,6 +19,12 @@ public class ApplicationManager {
     private String browser;
     private RegistrationHelper registrationHelper;
     private FtpHelper ftp;
+    private MailHelper mailHelper;
+    private JamesHelper jamesHelper;
+    private UserCreationHelper userCreation;
+    private LoginHelper loginHelper;
+    private DbHelper dbHelper;
+    private ResetPasswordHelper resetPswHelper;
 
     public Properties getProperties() {
         return properties;
@@ -32,6 +38,7 @@ public class ApplicationManager {
 
 
     public void init() throws IOException {
+   //     dbHelper = new DbHelper();
         String target = System.getProperty("target", "local");
         properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
     }
@@ -59,12 +66,46 @@ public class ApplicationManager {
         return registrationHelper;
     }
 
+    public UserCreationHelper userCreation() {
+        if (userCreation == null) {
+            userCreation = new UserCreationHelper(this);
+        }
+        return userCreation;
+    }
+
+    public LoginHelper loginHelper() {
+        if (loginHelper == null) {
+            loginHelper = new LoginHelper(this);
+        }
+        return loginHelper;
+    }
+    public ResetPasswordHelper resetPassword() {
+        if (resetPswHelper == null) {
+            resetPswHelper = new ResetPasswordHelper(this);
+        }
+        return resetPswHelper;
+    }
 
     public FtpHelper ftp() {
         if (ftp == null) {
             ftp = new FtpHelper(this);
         }
         return ftp;
+    }
+
+
+    public MailHelper mail() {
+        if (mailHelper == null) {
+            mailHelper = new MailHelper(this);
+        }
+        return mailHelper;
+    }
+
+    public JamesHelper james(){
+        if (jamesHelper == null) {
+            jamesHelper = new JamesHelper(this);
+        }
+        return jamesHelper;
     }
 
 
@@ -81,5 +122,9 @@ public class ApplicationManager {
 
         }
         return wd;
+    }
+
+    public DbHelper db(){
+        return dbHelper;
     }
 }
