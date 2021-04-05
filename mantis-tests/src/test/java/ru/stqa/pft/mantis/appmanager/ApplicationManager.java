@@ -5,6 +5,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.BrowserType;
+import ru.stqa.pft.mantis.model.Project;
 
 import java.io.File;
 import java.io.FileReader;
@@ -25,6 +26,7 @@ public class ApplicationManager {
     private LoginHelper loginHelper;
     private DbHelper dbHelper;
     private ResetPasswordHelper resetPswHelper;
+    private SoapHelper soapHelper;
 
     public Properties getProperties() {
         return properties;
@@ -85,13 +87,13 @@ public class ApplicationManager {
         }
         return resetPswHelper;
     }
-
-    public FtpHelper ftp() {
-        if (ftp == null) {
-            ftp = new FtpHelper(this);
-        }
-        return ftp;
-    }
+//
+//    public FtpHelper ftp() {
+//        if (ftp == null) {
+//            ftp = new FtpHelper(this);
+//        }
+//        return ftp;
+//    }
 
 
     public MailHelper mail() {
@@ -106,6 +108,13 @@ public class ApplicationManager {
             jamesHelper = new JamesHelper(this);
         }
         return jamesHelper;
+    }
+
+    public SoapHelper soap() {
+        if (soapHelper == null) {
+            soapHelper = new SoapHelper(this);
+        }
+        return soapHelper;
     }
 
 
