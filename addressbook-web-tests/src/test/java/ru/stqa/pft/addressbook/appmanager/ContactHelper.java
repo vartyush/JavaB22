@@ -156,15 +156,15 @@ public class ContactHelper extends HelperBase {
 
     }
 
-    public void addToGroup(Contacts contacts, Groups groups) {
+    public GroupData addToGroup(ContactData contact, Groups groups) {
         GroupData selectedGroup = groups.iterator().next();
-        ContactData selectedContact = contacts.iterator().next();
-        selectContactById(selectedContact.getId());
-        Set<GroupData> groupOfContact = selectedContact.getGroups();
-        if (selectedContact.getGroups().size() > 0) {
-            int i = 0;
+        Set<GroupData> groupOfContact = contact.getGroups();
+
+        if (contact.getGroups().size() > 0) {
+
 
             for (GroupData g : groups) {
+                int i = 0;
                 for (GroupData g1 : groupOfContact) {
                     if ((g1.getName()).equals(g.getName())) {
                         break;
@@ -177,23 +177,30 @@ public class ContactHelper extends HelperBase {
                 }
             }
             new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(selectedGroup.getName());
+            selectContactById(contact.getId());
             submitAddToGroup();
-            selectedContact.inGroup(selectedGroup);
+            returnToContactPage();
+            contact.inGroup(selectedGroup);
 
+            return selectedGroup;
         } else {
             new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(selectedGroup.getName());
+            selectContactById(contact.getId());
             submitAddToGroup();
-            selectedContact.inGroup(selectedGroup);
+            returnToContactPage();
+            contact.inGroup(selectedGroup);
+
+            return selectedGroup;
         }
-        returnToContactPage();
     }
 
-    public void removeFromGroup(ContactData contact) {
-        new Select(wd.findElement(By.name("group"))).selectByVisibleText(contact.getGroups().iterator().next().getName());
+    public GroupData removeFromGroup(ContactData contact) {
+        GroupData group = contact.getGroups().iterator().next();
+        new Select(wd.findElement(By.name("group"))).selectByVisibleText(group.getName());
         selectContactById(contact.getId());
         submitRemoveFromGroup();
-        contact.fromGroup(contact.getGroups().iterator().next());
-
+        contact.fromGroup(group);
+        return group;
     }
 
 

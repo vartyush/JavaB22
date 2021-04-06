@@ -1,10 +1,6 @@
 package ru.stqa.pft.addressbook.tests;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -13,13 +9,8 @@ import ru.stqa.pft.addressbook.modul.Contacts;
 import ru.stqa.pft.addressbook.modul.GroupData;
 import ru.stqa.pft.addressbook.modul.Groups;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
+
+import static org.testng.Assert.assertTrue;
 
 public class ContactRemoveFromGroupTest extends TestBase {
 
@@ -48,17 +39,31 @@ public class ContactRemoveFromGroupTest extends TestBase {
 
         Contacts contacts = app.db().contacts();
         ContactData removedContact = contacts.iterator().next();
+        int i = 0;
+        for (ContactData contact : contacts) {
+            if (contact.getGroups().size() > 0) {
+                app.goTo().contactPage();
+                Groups groupsOfContactBefore = contact.getGroups();
+                GroupData group = app.contact().removeFromGroup(removedContact);
+                Groups groupsOfContactAfter = contact.getGroups();
 
-        if (removedContact.getGroups().size() > 0) {
-            app.goTo().contactPage();
-            app.contact().removeFromGroup(removedContact);
-        } else {
-            app.goTo().contactPage();
-            app.contact().addToGroup(contacts, groups);
-            app.contact().removeFromGroup(removedContact);
+                assertTrue(groupsOfContactBefore.equals(groupsOfContactAfter.withAdded(group)));
+                break;
+            }
+            i++;
+
         }
-        System.out.println("+++" +groups.iterator().next());
-        Assert.assertFalse(removedContact.getGroups().contains(groups.iterator().next()));
+        if (i == contacts.size()) {
+            ContactData contact = app.db().contacts().iterator().next();
+            app.goTo().contactPage();
+            app.contact().addToGroup(contact, groups);
+            Groups groupsOfContactBefore = contact.getGroups();
+            GroupData group = app.contact().removeFromGroup(removedContact);
+            Groups groupsOfContactAfter = contact.getGroups();
+
+            assertTrue(groupsOfContactBefore.equals(groupsOfContactAfter.withAdded(group)));
+        }
+
 
     }
 }
