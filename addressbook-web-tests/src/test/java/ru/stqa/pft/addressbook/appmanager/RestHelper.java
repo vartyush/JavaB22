@@ -22,17 +22,17 @@ public class RestHelper {
     public RestHelper(ApplicationManager app) {
         this.app = app;
     }
-    public Issue getIssueStatus(int id) throws IOException {
+    public String getIssueStatus(int id) throws IOException {
         String json = getExecutor().execute(Request.Get("https://bugify.stqa.ru/api/issues/" + Integer.toString(id) +".json"))
                 .returnContent().asString();
         JsonElement parsed = new JsonParser().parse(json);
         JsonElement state = parsed.getAsJsonObject().getAsJsonArray("issues").get(0).getAsJsonObject().get("state_name");
-
-       // JsonElement state = issues.getAsJsonObject().get("state_name");
+        String s = state.getAsJsonPrimitive().getAsString();
+        // JsonElement state = issues.getAsJsonObject().get("state_name");
     //    System.out.println(state);
-        Set<Issue> stateList = new Gson().fromJson(state, new TypeToken<Set<Issue>>(){}.getType());
+       // Set<Issue> stateList = new Gson().fromJson(state, new TypeToken<Set<Issue>>(){}.getType());
 
-        return  stateList.stream().findFirst().get();
+        return  s;
     }
 
 

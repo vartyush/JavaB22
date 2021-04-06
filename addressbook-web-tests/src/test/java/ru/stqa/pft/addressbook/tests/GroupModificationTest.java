@@ -2,10 +2,12 @@ package ru.stqa.pft.addressbook.tests;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.google.protobuf.ServiceException;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.modul.GroupData;
@@ -15,6 +17,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.rmi.RemoteException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,6 +45,11 @@ public class GroupModificationTest extends TestBase {
             }.getType());
             return groups.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
         }
+    }
+
+    @BeforeTest
+    public void skipTestIfNotFixed() throws IOException, ServiceException {
+        skipIfNotFixed(940);
     }
 
     @BeforeMethod

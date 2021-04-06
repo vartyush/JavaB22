@@ -63,20 +63,19 @@ public void logTestStop(Method m){
                 .collect(Collectors.toSet())));
     }}
 
-//
-//    public void isIssueOpen( ) throws IOException, ServiceException {
-//        Set<Issue> oldIssue = app.rest().getIssues();
-////        if ((status.getName() == "Closed") || (status.getName() == "Resolved")) {
-////            return false;
-////        } else return true;
-//
-//    }
-//
-//    public void skipIfNotFixed(int issueId) throws RemoteException, ServiceException, MalformedURLException {
-//        if (isIssueOpen(issueId)) {
-//            throw new SkipException("Ignored because of issue " + issueId);
-//        }
-//    }
+    public boolean isIssueOpen(int issueId) throws IOException, ServiceException {
+        String issueStatus = app.rest().getIssueStatus(issueId);
+        if ((issueStatus.equals("Closed")) || (issueStatus.equals("Resolved"))) {
+            return false;
+        } else return true;
+
+    }
+
+   public void skipIfNotFixed(int issueId) throws IOException, ServiceException {
+       if (isIssueOpen(issueId)) {
+            throw new SkipException("Ignored because of issue " + issueId);
+       }
+   }
 
 
 
