@@ -19,7 +19,7 @@ import static org.testng.Assert.assertTrue;
 public class ChangePasswordTests extends TestBase {
     @BeforeTest
     public void skipTestIfNotFixed() throws RemoteException, ServiceException, MalformedURLException {
-        skipIfNotFixed(0000001);
+        skipIfNotFixed(0000002);
     }
 
     @BeforeMethod
