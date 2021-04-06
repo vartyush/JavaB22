@@ -1,5 +1,6 @@
 package ru.stqa.pft.addressbook.appmanager;
 
+import com.sun.org.apache.regexp.internal.RE;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -24,6 +25,7 @@ public class ApplicationManager {
     private ContactHelper contactHelper;
     private String browser;
     private DbHelper dbHelper;
+    private RestHelper restHelper;
 
     public Properties getProperties() {
         return properties;
@@ -82,5 +84,12 @@ public class ApplicationManager {
         return dbHelper;
     }
 
+
+    public RestHelper rest() {
+        if (restHelper == null) {
+            restHelper = new RestHelper(this);
+        }
+        return restHelper;
+    }
 
 }

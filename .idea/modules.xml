@@ -3,6 +3,12 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.test.addressbook-web-tests.iml" filepath="$PROJECT_DIR$/.idea/modules/com.test.addressbook-web-tests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.test.bugify.iml" filepath="$PROJECT_DIR$/.idea/modules/com.test.bugify.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.test.bugify.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.test.bugify.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.test.bugify.test.iml" filepath="$PROJECT_DIR$/.idea/modules/com.test.bugify.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.test.github-sample.iml" filepath="$PROJECT_DIR$/.idea/modules/com.test.github-sample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.test.github-sample.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.test.github-sample.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.test.github-sample.test.iml" filepath="$PROJECT_DIR$/.idea/modules/com.test.github-sample.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.test.mantis-tests.iml" filepath="$PROJECT_DIR$/.idea/modules/com.test.mantis-tests.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.test.mantis-tests.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.test.mantis-tests.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.test.mantis-tests.test.iml" filepath="$PROJECT_DIR$/.idea/modules/com.test.mantis-tests.test.iml" />

@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import ru.stqa.pft.addressbook.appmanager.ApplicationManager;
 import ru.stqa.pft.addressbook.modul.ContactData;
 import ru.stqa.pft.addressbook.modul.Contacts;
 import ru.stqa.pft.addressbook.modul.GroupData;
@@ -62,6 +63,7 @@ public class ContactCreationTest extends TestBase {
 
     public void ensurePreconditions() {
 
+
         if (app.db().groups().size() == 0) {
             app.goTo().groupPage();
             app.group().create(new GroupData().withName("Retest1"));
@@ -79,7 +81,7 @@ public class ContactCreationTest extends TestBase {
         //   Groups groups = app.group().all();
         Contacts before = app.db().contacts();
         File photo = new File("src/test/resources/stru.png");
-        //  ContactData contact = new ContactData().withFirstname("Viktoria123").withLastname("Rubanova").withCompany("T-Systems").withPhoto(photo);
+     //    ContactData contact = new ContactData().withFirstname("Viktoria123").withLastname("Rubanova").withCompany("T-Systems").withPhoto(photo);
         app.contact().create(contact.inGroup(group.iterator().next()), true);
         assertThat(app.contact().count(), equalTo(before.size() + 1));
         Contacts after = app.db().contacts();
