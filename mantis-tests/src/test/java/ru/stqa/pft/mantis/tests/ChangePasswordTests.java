@@ -6,6 +6,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import ru.lanwen.verbalregex.VerbalExpression;
 import ru.stqa.pft.mantis.model.MailMessage;
+import ru.stqa.pft.mantis.model.Users;
 
 import javax.xml.rpc.ServiceException;
 import java.io.IOException;
@@ -30,6 +31,8 @@ public class ChangePasswordTests extends TestBase {
     @Test
     public void testChangePassword() throws IOException, InterruptedException {
         long now = System.currentTimeMillis();
+        Users users = app.db().users();
+        System.out.println(users);
         String email = String.format("user%s@localhost.localdomain", now);
         String username = String.format("user1%s", now);
         String password = "password";
