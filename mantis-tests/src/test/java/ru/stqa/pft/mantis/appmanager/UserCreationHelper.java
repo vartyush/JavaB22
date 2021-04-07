@@ -12,6 +12,7 @@ public class UserCreationHelper extends HelperBase {
     }
 
     public void start(String user, String email) {
+        click(By.xpath("//span[contains(text(), 'Manage')]"));
         click(By.xpath("//a[contains(text(), 'Manage Users')]"));
         click(By.xpath("//a[contains(text(), 'Create New Account')]"));
         type(By.name("username"), user);

@@ -51,4 +51,12 @@ import java.util.Set;
         }
 
 
-            }
+        @Override
+        public String toString() {
+            return "UserData{" +
+                    "id=" + id +
+                    ", username='" + username + '\'' +
+                    ", email='" + email + '\'' +
+                    '}';
+        }
+    }

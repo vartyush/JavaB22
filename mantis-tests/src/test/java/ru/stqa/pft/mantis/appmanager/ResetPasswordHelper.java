@@ -11,6 +11,7 @@ public class ResetPasswordHelper extends HelperBase {
 
 
     public void start(String username) throws InterruptedException {
+        click(By.xpath("//span[contains(text(), 'Manage')]"));
         click(By.xpath("//a[contains(text(), 'Manage Users')]"));
         click(By.xpath("//a[contains(text(),'" + username + "')]"));
         Thread.sleep(3000);
