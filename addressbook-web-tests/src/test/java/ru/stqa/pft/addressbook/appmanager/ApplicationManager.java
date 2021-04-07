@@ -48,7 +48,7 @@ public class ApplicationManager {
 
         if("".equals(properties.getProperty("selenium.server"))) {
             if (browser.equals(BrowserType.CHROME)) {
-                wd = new FirefoxDriver();
+                wd = new ChromeDriver();
             } else if (browser.equals(BrowserType.IE)) {
                 wd = new InternetExplorerDriver();
             } else wd = new ChromeDriver();
