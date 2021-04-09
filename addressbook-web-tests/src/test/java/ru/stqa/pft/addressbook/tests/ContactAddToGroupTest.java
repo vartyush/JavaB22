@@ -9,27 +9,47 @@ import ru.stqa.pft.addressbook.modul.Contacts;
 import ru.stqa.pft.addressbook.modul.GroupData;
 import ru.stqa.pft.addressbook.modul.Groups;
 
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.testng.Assert.assertTrue;
 
 
 public class ContactAddToGroupTest extends TestBase {
 
+    private ContactData selectedContact;
+    private GroupData selectedGroup;
+
+
     @BeforeMethod
 
     public void ensurePreconditions() {
         if (app.db().groups().size() == 0) {
             app.goTo().groupPage();
-            app.group().create(new GroupData().withName("test1"));
+            app.group().create(new GroupData().withName("newGroup1"));
             app.goTo().contactPage();
         }
 
         if (app.db().contacts().size() == 0) {
-            Groups group = app.db().groups();
+            Groups groups = app.db().groups();
             app.contact().create(new ContactData().withFirstname("Viktoria123").withCompany("T-Systems")
-                    .inGroup(group.iterator().next()), true);
+                    .inGroup(groups.iterator().next()), true);
         }
 
+        Contacts contacts = app.db().contacts();
+        Groups groups = app.db().groups();
+        int i = 0;
+        for (ContactData contact : contacts) {
+            if (contact.getGroups().equals(groups)) {
+                i++;
+            }
+        }
+
+
+        if (i == contacts.size()) {
+            app.goTo().groupPage();
+            app.group().create(new GroupData().withName("newGroup2"));
+        }
     }
 
 
@@ -39,30 +59,25 @@ public class ContactAddToGroupTest extends TestBase {
         Groups groups = app.db().groups();
 
         Contacts contacts = app.db().contacts();
-        GroupData newGroup = new GroupData().withName("Retest1");
-
-        int i = 0;
         for (ContactData contact : contacts) {
-            if (!contact.getGroups().equals(groups)) {
-                Groups groupsOfContactBefore = contact.getGroups();
-                GroupData group = app.contact().addToGroup(contact, groups);
-                Groups groupsOfContactAfter = contact.getGroups();
-                assertTrue(groupsOfContactBefore.equals(groupsOfContactAfter.without(group)));
-                break;
+            for (GroupData group : groups) {
+                if (!contact.getGroups().contains(group)) {
+
+                    selectedContact = contact;
+                    selectedGroup = group;
+
+                }
+
             }
-            i++;
 
         }
-        if (i == contacts.size()) {
-            app.goTo().groupPage();
-            app.group().create(newGroup);
-            ContactData contact = app.db().contacts().iterator().next();
-            app.goTo().contactPage();
-            Groups groupsOfContactBefore = contact.getGroups();
-            GroupData group = app.contact().addToGroup(contact, groups);
-            Groups groupsOfContactAfter = contact.getGroups();
-            assertTrue(groupsOfContactBefore.equals(groupsOfContactAfter.without(group)));
-        }
+        app.goTo().contactPage();
+        app.contact().addToGroup(selectedContact, selectedGroup);
+        System.out.println("до обновления " + selectedContact.getGroups());
+        app.db().groups();
+        app.db().contacts();
+        System.out.println("после обновления " + selectedContact.getGroups());
+        assertTrue(selectedContact.getGroups().contains(selectedGroup));
 
 
     }

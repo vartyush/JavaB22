@@ -156,51 +156,23 @@ public class ContactHelper extends HelperBase {
 
     }
 
-    public GroupData addToGroup(ContactData contact, Groups groups) {
-        GroupData selectedGroup = groups.iterator().next();
-        Set<GroupData> groupOfContact = contact.getGroups();
+    public void addToGroup(ContactData contact, GroupData group) {
 
-        if (contact.getGroups().size() > 0) {
+        selectContactById(contact.getId());
+        new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(group.getName());
+        submitAddToGroup();
+        returnToContactPage();
+        contact.inGroup(group);
 
 
-            for (GroupData g : groups) {
-                int i = 0;
-                for (GroupData g1 : groupOfContact) {
-                    if ((g1.getName()).equals(g.getName())) {
-                        break;
-                    }
-                    i++;
-                }
-                if (i == groupOfContact.size()) {
-                    selectedGroup = g;
-                    break;
-                }
-            }
-            new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(selectedGroup.getName());
-            selectContactById(contact.getId());
-            submitAddToGroup();
-            returnToContactPage();
-            contact.inGroup(selectedGroup);
-
-            return selectedGroup;
-        } else {
-            new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(selectedGroup.getName());
-            selectContactById(contact.getId());
-            submitAddToGroup();
-            returnToContactPage();
-            contact.inGroup(selectedGroup);
-
-            return selectedGroup;
-        }
     }
 
-    public GroupData removeFromGroup(ContactData contact) {
-        GroupData group = contact.getGroups().iterator().next();
+    public void removeFromGroup(ContactData contact, GroupData group) {
         new Select(wd.findElement(By.name("group"))).selectByVisibleText(group.getName());
         selectContactById(contact.getId());
         submitRemoveFromGroup();
         contact.fromGroup(group);
-        return group;
+
     }
 
 
