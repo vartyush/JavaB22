@@ -9,6 +9,8 @@ import ru.stqa.pft.addressbook.modul.Contacts;
 import ru.stqa.pft.addressbook.modul.GroupData;
 import ru.stqa.pft.addressbook.modul.Groups;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.testng.AssertJUnit.assertFalse;
 
 public class ContactRemoveFromGroupTest extends TestBase {
@@ -34,13 +36,13 @@ public class ContactRemoveFromGroupTest extends TestBase {
         Contacts contacts = app.db().contacts();
         int i = 0;
         for (ContactData contact : contacts) {
-            if (contact.getGroups().size()==0) {
+            if (contact.getGroups().size() == 0) {
                 i++;
             }
         }
 
         if (i == contacts.size()) {
-             ContactData contact = app.db().contacts().iterator().next();
+            ContactData contact = app.db().contacts().iterator().next();
             GroupData group = app.db().groups().iterator().next();
             app.goTo().contactPage();
             app.contact().addToGroup(contact, group);
@@ -61,12 +63,21 @@ public class ContactRemoveFromGroupTest extends TestBase {
                 }
             }
         }
-            app.goTo().contactPage();
-           app.contact().removeFromGroup(selectedContact, selectedGroup);
-            app.db().groups();
-            app.db().contacts();
-            assertFalse(selectedContact.getGroups().contains(selectedGroup));
+        Groups groupsOfContactBefore = selectedContact.getGroups();
 
+        app.goTo().contactPage();
+        app.contact().removeFromGroup(selectedContact, selectedGroup);
+        Contacts contactsListAfter = app.db().contacts();
+        for (ContactData contact : contactsListAfter) {
+
+            if (contact.equals(selectedContact)) {
+                Groups groupsOfContactAfter = contact.getGroups();
+
+                assertThat(groupsOfContactBefore, equalTo(groupsOfContactAfter.withAdded(selectedGroup)));
+
+            }
         }
+
     }
+}
 

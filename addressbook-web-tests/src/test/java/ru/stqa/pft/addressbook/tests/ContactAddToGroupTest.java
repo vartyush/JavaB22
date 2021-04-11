@@ -12,6 +12,8 @@ import ru.stqa.pft.addressbook.modul.Groups;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.testng.Assert.assertTrue;
 
 
@@ -71,14 +73,21 @@ public class ContactAddToGroupTest extends TestBase {
             }
 
         }
+        Groups groupsOfContactBefore = selectedContact.getGroups();
+
         app.goTo().contactPage();
         app.contact().addToGroup(selectedContact, selectedGroup);
-        System.out.println("до обновления " + selectedContact.getGroups());
-        app.db().groups();
-        app.db().contacts();
-        System.out.println("после обновления " + selectedContact.getGroups());
-        assertTrue(selectedContact.getGroups().contains(selectedGroup));
 
+        Contacts contactsListAfter = app.db().contacts();
 
+        for (ContactData contact : contactsListAfter) {
+
+            if (contact.equals(selectedContact)) {
+                Groups groupsOfContactAfter = contact.getGroups();
+
+                assertThat(groupsOfContactBefore, equalTo(groupsOfContactAfter.without(selectedGroup)));
+
+            }
+        }
     }
 }

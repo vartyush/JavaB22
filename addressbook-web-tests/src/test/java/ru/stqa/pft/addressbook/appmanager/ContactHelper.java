@@ -162,17 +162,12 @@ public class ContactHelper extends HelperBase {
         new Select(wd.findElement(By.name("to_group"))).selectByVisibleText(group.getName());
         submitAddToGroup();
         returnToContactPage();
-        contact.inGroup(group);
-
-
     }
 
     public void removeFromGroup(ContactData contact, GroupData group) {
         new Select(wd.findElement(By.name("group"))).selectByVisibleText(group.getName());
         selectContactById(contact.getId());
         submitRemoveFromGroup();
-        contact.fromGroup(group);
-
     }
 
 
